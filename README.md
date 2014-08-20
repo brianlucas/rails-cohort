@@ -16,4 +16,4 @@ Visit the server on your web browser.
 
 
 ## Instructions
-A demo is hosted on Heroku at: http://blucas-cohort.herokuapp.com/
+A demo is hosted on Heroku at: http://shrouded-stream-7863.herokuapp.com/
