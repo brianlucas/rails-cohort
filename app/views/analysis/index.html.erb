@@ -1,0 +1,64 @@
+<h3>Cohort Analysis</h3>
+<div class="well">
+  <p>Note: You can change the number of weeks by specifying the "num_weeks" query parameter, e.g.<br>
+<a href="<%="#{request.protocol}#{request.host_with_port}?num_weeks=15"%>"><%="#{request.protocol}#{request.host_with_port}?num_weeks=15"%></a>
+<br>
+<b>This is set by default to 8 weeks.</b>
+</p>
+</div>
+  <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>
+        Cohort
+      </th>
+      <th>
+        Users
+      </th>
+
+      <% @cohorts.size.times do |i| %>
+        <% next if i.eql?(0) || i > @num_weeks.to_i %>
+        <th>
+          <%= ((i-1)*7)%>-<%=(i*7)%> days 
+        </th>
+      <% end %>
+
+    </tr>
+  </thead>
+
+  <% @cohorts.each_with_index do |row, index| %>
+
+    <% start = row[1][:count][0] %>
+
+    <tr>
+      <td NOWRAP>
+        <%
+        date=row[0]
+        wkBegin = (date).strftime("%m/%d")
+        wkEnd = (date+6).strftime("%m/%d")
+        %>
+        
+        <%= "#{wkBegin}-#{wkEnd}" %>
+      </td>
+      <td NOWRAP>
+        <%= start %> users
+      </td>
+      <% 
+      (@cohorts.size).times do |i| %>
+        <% next if i.eql?(0) || i > @num_weeks.to_i %>
+        <td NOWRAP>
+
+          <% if row[1][:count][i].to_f > 0 %>
+            <%= "#{((row[1][:count][i].to_f/start.to_f) * 100.00).round(0)}% " %> orderers (<%= "#{row[1][:count][i]}" %>)<br>
+            <%= "#{((row[1][:first_time][i].to_f/start.to_f) * 100.00).round(0)}% " %> 1st time (<%= "#{row[1][:first_time][i]}" %>)
+          <% else %>
+            --
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+
+  <% end %>
+
+
+</table>
