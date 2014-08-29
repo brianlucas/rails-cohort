@@ -17,9 +17,13 @@
       </th>
 
       <% @cohorts.size.times do |i| %>
-        <% next if i.eql?(0) || i > @num_weeks.to_i %>
+        <% next if i > (@num_weeks.to_i-1) %>
         <th>
-          <%= ((i-1)*7)%>-<%=(i*7)%> days 
+          <% if i.eql?(0) %>
+          0-7
+          <% else %>
+          <%= ((i)*7)%>-<%=((i+1)*7)%>
+          <% end%> days 
         </th>
       <% end %>
 
@@ -28,7 +32,9 @@
 
   <% @cohorts.each_with_index do |row, index| %>
 
-    <% start = row[1][:count][0] %>
+    <% 
+    total_users = row[1][:total_users]
+    start = row[1][:count][0] %>
 
     <tr>
       <td NOWRAP>
@@ -41,16 +47,17 @@
         <%= "#{wkBegin}-#{wkEnd}" %>
       </td>
       <td NOWRAP>
-        <%= start %> users
+        <%= total_users %> users
       </td>
       <% 
       (@cohorts.size).times do |i| %>
-        <% next if i.eql?(0) || i > @num_weeks.to_i %>
+        <% 
+        next if i > (@num_weeks.to_i-1) %>
         <td NOWRAP>
 
           <% if row[1][:count][i].to_f > 0 %>
-            <%= "#{((row[1][:count][i].to_f/start.to_f) * 100.00).round(0)}% " %> orderers (<%= "#{row[1][:count][i]}" %>)<br>
-            <%= "#{((row[1][:first_time][i].to_f/start.to_f) * 100.00).round(0)}% " %> 1st time (<%= "#{row[1][:first_time][i]}" %>)
+            <%= "#{((row[1][:count][i].to_f/total_users.to_f) * 100.00).round(1)}% " rescue nil %> orderers (<%= "#{row[1][:count][i]}" %>)<br>
+            <%= "#{((row[1][:first_time][i].to_f/total_users.to_f) * 100.00).round(1)}% " rescue nil %> 1st time (<%= "#{row[1][:first_time][i]}" rescue nil %>)
           <% else %>
             --
           <% end %>
