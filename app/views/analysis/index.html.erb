@@ -1,9 +1,23 @@
 <h3>Cohort Analysis</h3>
 <div class="well">
-  <p>Note: You can change the number of weeks by specifying the "num_weeks" query parameter, e.g.<br>
+
+  <p>The default cohort week count is set by default to <b>8 weeks</b>.
+  <br>
+Note: You can change the number of weeks in two ways:
+<br>By specifying the "num_weeks" query parameter, e.g.<br>
 <a href="<%="#{request.protocol}#{request.host_with_port}?num_weeks=15"%>"><%="#{request.protocol}#{request.host_with_port}?num_weeks=15"%></a>
-<br>
-<b>This is set by default to 8 weeks.</b>
+<br><br>
+Or by setting the value here:
+<form ACTION="/" class="form-horizontal" role="form-horizontal">
+  <div class="form-group form-group-sm">
+    <label class="col-sm-3 control-label">Cohort count (weeks)</label>
+    <div class="col-sm-2">
+      <input type="number" class="form-control" name="num_weeks">
+    </div>
+    <button type="submit" class="btn btn-default btn-sm">Submit</button>
+  </div>
+</form>
+
 </p>
 </div>
   <table class="table table-bordered">
